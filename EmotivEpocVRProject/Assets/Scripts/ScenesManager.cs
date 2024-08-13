@@ -73,7 +73,7 @@ public class ScenesManager : Singleton<ScenesManager>
     {
         for (int i = 0; i < systemPrefabs.Count; i++)
         {
-            if (systemPrefabs[i].name.Equals("LoadingPanel"))
+            if (systemPrefabs[i].name.Equals("LoadingPanel") || systemPrefabs[i].name.Equals("GameManager"))
             {
                 systemPrefabs[i].SetActive(false);
             }
@@ -86,7 +86,6 @@ public class ScenesManager : Singleton<ScenesManager>
         loadingPanel = systemPrefabs[0];
         
         slider = loadingPanel.GetComponentInChildren<UnityEngine.UI.Slider>();
-        LoadLevel(mainLevel);
     }
 
     /// <summary>
@@ -156,7 +155,13 @@ public class ScenesManager : Singleton<ScenesManager>
 
         switch (CurrentLevelName)
         {
-            case "Auditorio":
+            case "Auditorium":
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(_currentLevelName));
+                CharacterManager.Instance.SetSettupCharacterController(0);
+                systemPrefabs[2].SetActive(true);
+                break;
+
+            case "Lab":
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(_currentLevelName));
                 CharacterManager.Instance.SetSettupCharacterController(0);
                 break;

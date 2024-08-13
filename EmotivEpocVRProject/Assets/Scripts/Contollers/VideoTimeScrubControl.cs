@@ -32,6 +32,10 @@ namespace Unity.VRTemplate
         [SerializeField]
         [Tooltip("Repeat icon sprite")]
         Sprite m_IconRepeat;
+        
+        [Tooltip("Repeat Panel")]
+        [SerializeField]
+        GameObject m_PaneRepeat;
 
         [SerializeField]
         [Tooltip("Play or pause button image.")]
@@ -41,55 +45,41 @@ namespace Unity.VRTemplate
         [Tooltip("Text that displays the current time of the video.")]
         TextMeshProUGUI m_VideoTimeText;
 
+        [HideInInspector]
+        [Tooltip("Text that displays the current name video.")]
+        public TextMeshProUGUI m_VideoNameText;
+
         [SerializeField]
         [Tooltip("If checked, the slider will fade off after a few seconds. If unchecked, the slider will remain on.")]
         bool m_HideSliderAfterFewSeconds;
 
-        [SerializeField] int m_CurrentIndex;
+        public bool m_IsDragging;
+        public bool m_VideoIsPlaying;
+        public bool m_VideoJumpPending;
+        public long m_LastFrameBeforeScrub;
 
-        bool m_IsDragging;
-        bool m_VideoIsPlaying;
-        bool m_VideoJumpPending;
-        long m_LastFrameBeforeScrub;
+        public int m_CurrentIndex;
         public VideoPlayer m_VideoPlayer;
-        public VideoClip[] videoClips;
-        public float videoDurationSeconds;
+        public List<VideoClip> videoClips = new List<VideoClip>();
+
+        private void Start()
+        {
+           GameManager.Instance.videoPlayerController = this;
+           m_VideoPlayer.loopPointReached += OnVideoFinished;
+        }
+
+        void OnVideoFinished(VideoPlayer vp)
+        {
+            m_PaneRepeat.SetActive(true);
+        }
+
         public void First()
         {
-            float wholeTime = 0f;
-            for (int i = 0; i < videoClips.Length; i++)
-            {
-                wholeTime += (float)videoClips[i].length;
-            }
-            
-            videoDurationSeconds = wholeTime;
             ResetPanel();
             VideoPlay();
-            //UIManager.Instance.ChanceMusicBackGround(1);
 
-            //if (m_ButtonPlayOrPause != null)
-            //    m_ButtonPlayOrPause.SetActive(false);
-        }
-
-        public void RewindVideo()
-        {
-            if (m_VideoPlayer != null)
-            {
-                float newTime = (float)(m_VideoPlayer.time - 10f);
-                m_VideoPlayer.time = Mathf.Max(newTime, 0f);  // Asegurarse de que no sea menor que cero
-                UpdateVideoTimeText();
-            }
-        }
-
-        // Nueva función para avanzar el video 10 segundos
-        public void FastForwardVideo()
-        {
-            if (m_VideoPlayer != null)
-            {
-                float newTime = (float)m_VideoPlayer.time + 10f;
-                m_VideoPlayer.time = Mathf.Min(newTime, (float)m_VideoPlayer.length);  // Asegurarse de que no sea mayor que la duración del video
-                UpdateVideoTimeText();
-            }
+            if (m_ButtonPlayOrPause != null)
+                m_ButtonPlayOrPause.SetActive(false);
         }
 
         public void ResetPanel()
@@ -102,6 +92,8 @@ namespace Unity.VRTemplate
             m_Slider.value = 0.0f;
             m_Slider.onValueChanged.AddListener(OnSliderValueChange);
             m_Slider.gameObject.SetActive(true);
+            m_PaneRepeat.SetActive(false);
+
             if (m_HideSliderAfterFewSeconds)
                 StartCoroutine(HideSliderAfterSeconds());
         }
@@ -162,22 +154,26 @@ namespace Unity.VRTemplate
 
         void VideoJump()
         {
+            if (m_PaneRepeat.activeInHierarchy)
+            {
+                m_PaneRepeat.SetActive(false);
+            }
+
             m_VideoJumpPending = true;
-            var frame = m_VideoPlayer.frameCount * m_Slider.value;
-            m_LastFrameBeforeScrub = m_VideoPlayer.frame;
-            m_VideoPlayer.frame = (long)frame;
+            var timeInSeconds = m_VideoPlayer.length * m_Slider.value;
+            m_VideoPlayer.time = timeInSeconds;
         }
 
         public void SetVideo(int index)
         {
             m_CurrentIndex = index;
             m_VideoPlayer.clip = videoClips[m_CurrentIndex];
-        }
 
-        //public void CallQuestEvent()
-        //{
-        //    GameManager.Instance.StartQuest(m_CurrentIndex);
-        //}
+            //if (m_VideoNameText)
+            //{
+            //    m_VideoNameText.text = LanguageManager.Instance.GetStringValue(GameManager.Instance.playerStats.toolsModule[index].moduleName);
+            //}
+        }
 
         public void PlayOrPauseVideo()
         {
@@ -193,9 +189,9 @@ namespace Unity.VRTemplate
 
         void UpdateVideoTimeText()
         {
-            if (GameManager.Instance.timeLineController.playableDirectors != null && m_VideoTimeText != null)
+            if (m_VideoPlayer != null && m_VideoTimeText != null)
             {
-                var currentTimeTimeSpan = TimeSpan.FromSeconds(videoDurationSeconds);
+                var currentTimeTimeSpan = TimeSpan.FromSeconds(m_VideoPlayer.time);
                 var totalTimeTimeSpan = TimeSpan.FromSeconds(m_VideoPlayer.length);
                 var currentTimeString = string.Format("{0:D2}:{1:D2}",
                     currentTimeTimeSpan.Minutes,
@@ -215,7 +211,20 @@ namespace Unity.VRTemplate
             m_VideoIsPlaying = false;
             m_VideoPlayer.Pause();
             m_ButtonPlayOrPauseIcon.sprite = m_IconPlay;
-           // m_ButtonPlayOrPause.SetActive(true);
+            m_ButtonPlayOrPause.SetActive(true);
+        }
+
+        public void RestartVideoPlayer()
+        {
+            m_PaneRepeat.SetActive(false);
+            m_VideoPlayer.Stop();
+            m_VideoPlayer.time = 0.0;
+            RenderTexture renderTexture;
+            renderTexture = m_VideoPlayer.targetTexture;
+            renderTexture.Release();
+            renderTexture.Create();
+            m_VideoPlayer.targetTexture = renderTexture;
+            VideoPlay();
         }
 
         void VideoPlay()
@@ -223,7 +232,13 @@ namespace Unity.VRTemplate
             m_VideoIsPlaying = true;
             m_VideoPlayer.Play();
             m_ButtonPlayOrPauseIcon.sprite = m_IconPause;
-            //m_ButtonPlayOrPause.SetActive(false);
+            m_ButtonPlayOrPause.SetActive(false);
         }
+
+        private void OnDisable()
+        {
+           // GameManager.Instance.backGroundController.RestartVideoPlayer(m_VideoPlayer);
+        }
+
     }
 }

@@ -12,7 +12,6 @@ public class UIManager : Singleton<UIManager>
     public AudioMixer audioMixer;
     public GameObject mainMenuPanel;
     public GameObject interactionPanel;
-    public GameObject miniMap;
     public GameObject videoPlayer2DPanel;
     public GameObject optionsMenuPanel;
     public GameObject resultGraphicPanel;
