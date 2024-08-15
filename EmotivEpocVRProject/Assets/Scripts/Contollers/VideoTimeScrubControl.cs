@@ -35,7 +35,7 @@ namespace Unity.VRTemplate
         
         [Tooltip("Repeat Panel")]
         [SerializeField]
-        GameObject m_PaneRepeat;
+        GameObject m_PanelRepeat;
 
         [SerializeField]
         [Tooltip("Play or pause button image.")]
@@ -70,7 +70,7 @@ namespace Unity.VRTemplate
 
         void OnVideoFinished(VideoPlayer vp)
         {
-            m_PaneRepeat.SetActive(true);
+            m_PanelRepeat.SetActive(true);
         }
 
         public void First()
@@ -92,7 +92,7 @@ namespace Unity.VRTemplate
             m_Slider.value = 0.0f;
             m_Slider.onValueChanged.AddListener(OnSliderValueChange);
             m_Slider.gameObject.SetActive(true);
-            m_PaneRepeat.SetActive(false);
+            m_PanelRepeat.SetActive(false);
 
             if (m_HideSliderAfterFewSeconds)
                 StartCoroutine(HideSliderAfterSeconds());
@@ -154,9 +154,9 @@ namespace Unity.VRTemplate
 
         void VideoJump()
         {
-            if (m_PaneRepeat.activeInHierarchy)
+            if (m_PanelRepeat.activeInHierarchy)
             {
-                m_PaneRepeat.SetActive(false);
+                m_PanelRepeat.SetActive(false);
             }
 
             m_VideoJumpPending = true;
@@ -216,7 +216,7 @@ namespace Unity.VRTemplate
 
         public void RestartVideoPlayer()
         {
-            m_PaneRepeat.SetActive(false);
+            m_PanelRepeat.SetActive(false);
             m_VideoPlayer.Stop();
             m_VideoPlayer.time = 0.0;
             RenderTexture renderTexture;

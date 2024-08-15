@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a782ac1859d8a448d09a0944b21c8d, type: 3}
+  m_Name: Question 3
+  m_EditorClassIdentifier: 
+  sentences:
+  - "\xBFQu\xE9 tipos de ondas cerebrales puede captar el Emotiv Epoc+ y qu\xE9 estados
+    mentales est\xE1n asociados con estas ondas?"
+  answers:
+  - "Ondas Delta (sue\xF1o profundo), Ondas Alpha (relajaci\xF3n tranquila), Ondas
+    Beta (concentraci\xF3n)."
+  - Solo ondas Alpha.
+  - "Ondas Gamma (alta conciencia) y Ondas Theta (sue\xF1o profundo)."
+  trueAnswer: 0
+  isAnswerCorrect: 0

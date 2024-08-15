@@ -15,6 +15,9 @@ public class UIManager : Singleton<UIManager>
     public GameObject videoPlayer2DPanel;
     public GameObject optionsMenuPanel;
     public GameObject resultGraphicPanel;
+    public GameObject videoPlayer;
+    public GameObject quizMenu;
+    public GameObject timer2DPanel;
 
     GameObject currentUI;
     GameObject newUI;
@@ -30,9 +33,9 @@ public class UIManager : Singleton<UIManager>
         currentUI = currentUIObject;
     }
 
-    public void CallVideoPlayer(GameObject videoPLayer)
+    public void CallVideoPlayer()
     {
-        StartCoroutine(StartVideoPlayer(videoPLayer));
+        StartCoroutine(StartVideoPlayer());
     }
 
     public void Quit()
@@ -40,10 +43,12 @@ public class UIManager : Singleton<UIManager>
         Application.Quit();
     }
 
-    IEnumerator StartVideoPlayer(GameObject videoPlayer)
+    IEnumerator StartVideoPlayer()
     {
+        videoPlayer.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
         yield return new WaitUntil(() => videoPlayer.activeInHierarchy);
-        videoPlayer.GetComponent<VideoTimeScrubControl>().First();
+        GameManager.Instance.videoPlayerController.First();
     }
 
     IEnumerator ChangeUIMenuByImage()

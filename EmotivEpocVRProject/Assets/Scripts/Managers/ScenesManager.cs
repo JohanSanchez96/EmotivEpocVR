@@ -145,11 +145,19 @@ public class ScenesManager : Singleton<ScenesManager>
         ao.completed += OnUnLoadOperationComplete;
     }
 
+    public void ResetLevel(string levelName)
+    {
+        UnLoadLevel(levelName);
+        _lastLevelName = string.Empty;
+        _currentLevelName = string.Empty;
+    }
+
     /// <summary>
     /// Método que permite validar el nivel cargado para determinar las acciones a realizar.
     /// </summary>
     void ValidateLevel()
     {
+        Debug.Log("scene" + _lastLevelName);
         if (_lastLevelName != "")
             UnLoadLevel(_lastLevelName);
 
@@ -165,7 +173,14 @@ public class ScenesManager : Singleton<ScenesManager>
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(_currentLevelName));
                 CharacterManager.Instance.SetSettupCharacterController(0);
                 break;
+            
+            default:
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(_currentLevelName));
+                CharacterManager.Instance.SetSettupCharacterController(0);
+                break;
         }
+
+
     }
 
     /// <summary>

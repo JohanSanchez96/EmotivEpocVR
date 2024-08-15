@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a782ac1859d8a448d09a0944b21c8d, type: 3}
+  m_Name: Question 1
+  m_EditorClassIdentifier: 
+  sentences:
+  - "\xBFCu\xE1les son los pasos necesarios para preparar y colocar correctamente
+    el dispositivo Emotiv Epoc+ antes de su uso?"
+  answers:
+  - "Asegurarse de que el dispositivo est\xE9 completamente cargado y humedecer los
+    sensores con soluci\xF3n salina. "
+  - Colocar el dispositivo en cualquier parte de la cabeza sin necesidad de ajustar.
+  - No es necesario humedecer los sensores.
+  trueAnswer: 0
+  isAnswerCorrect: 0
