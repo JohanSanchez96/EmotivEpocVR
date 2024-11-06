@@ -237,8 +237,18 @@ namespace Unity.VRTemplate
 
         private void OnDisable()
         {
-           // GameManager.Instance.backGroundController.RestartVideoPlayer(m_VideoPlayer);
+           RestartVideoPlayer(m_VideoPlayer);
         }
 
+        public void RestartVideoPlayer(VideoPlayer videoPlayer)
+        {
+            videoPlayer.Stop();
+            videoPlayer.time = 0.0;
+            RenderTexture renderTexture;
+            renderTexture = videoPlayer.targetTexture;
+            renderTexture.Release();
+            renderTexture.Create();
+            videoPlayer.targetTexture = renderTexture;
+        }
     }
 }

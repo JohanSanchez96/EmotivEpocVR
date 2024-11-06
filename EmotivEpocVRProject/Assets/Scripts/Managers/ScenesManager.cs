@@ -163,13 +163,13 @@ public class ScenesManager : Singleton<ScenesManager>
 
         switch (CurrentLevelName)
         {
-            case "Auditorium":
+            case "Auditorio":
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(_currentLevelName));
                 CharacterManager.Instance.SetSettupCharacterController(0);
                 systemPrefabs[2].SetActive(true);
                 break;
 
-            case "Lab":
+            case "Laboratorio":
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(_currentLevelName));
                 CharacterManager.Instance.SetSettupCharacterController(0);
                 break;
@@ -179,8 +179,6 @@ public class ScenesManager : Singleton<ScenesManager>
                 CharacterManager.Instance.SetSettupCharacterController(0);
                 break;
         }
-
-
     }
 
     /// <summary>

@@ -17,12 +17,12 @@ public class CharacterManager : Singleton<CharacterManager>
             switch (index)
             {
                 case 0:
-                    moveCharacter.enabled = false;
+                    moveCharacter.enabled = turnCharacter.enabled = false;
                     Debug.Log("Move Desactived");
                     break;
                 
                 case 1:
-                    moveCharacter.enabled = true;
+                    moveCharacter.enabled = turnCharacter.enabled = true;
                     Debug.Log("Move Activate");
                     break;
             }

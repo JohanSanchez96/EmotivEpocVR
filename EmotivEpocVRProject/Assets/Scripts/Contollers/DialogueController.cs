@@ -53,7 +53,7 @@ public class DialogueController : MonoBehaviour
         foreach(char letter in sentence.ToCharArray()) 
         { 
             textBox.text += letter;
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.01f);
         }
 
         isPlaying = false;
@@ -61,6 +61,7 @@ public class DialogueController : MonoBehaviour
 
     public void EndDialogue()
     {
+        textBox.text = string.Empty;
         sentences.Clear();
         newQuestion = null;
     }

@@ -170,7 +170,7 @@ public class QuestGameManager : MonoBehaviour
             bodyPanel.SetActive(false);
             observationsPanel.SetActive(true);
             observationsPanel.GetComponentInChildren<TMP_Text>().color = new Color32(0, 255, 0, 255);
-            observationsPanel.GetComponentInChildren<TMP_Text>().text = "TrueAnswerText";
+            observationsPanel.GetComponentInChildren<TMP_Text>().text = "Respuesta Correcta";
         }
         else
         {
@@ -178,7 +178,7 @@ public class QuestGameManager : MonoBehaviour
             bodyPanel.SetActive(false);
             observationsPanel.SetActive(true);
             observationsPanel.GetComponentInChildren<TMP_Text>().color = new Color32(255, 0, 0, 255);
-            observationsPanel.GetComponentInChildren<TMP_Text>().text = "WrongAnswerText" + answersProvisionalList[currentQuest.trueAnswer];
+            observationsPanel.GetComponentInChildren<TMP_Text>().text = "Respuesta Incorrrecta, la correcta es: " + answersProvisionalList[currentQuest.trueAnswer];
         }
     }
 
@@ -201,7 +201,7 @@ public class QuestGameManager : MonoBehaviour
     public void Validate()
     {
         int position = indexQuestion + 1;
-        textIndicator.text = "QuestIndicator" + " " + position + "/3";
+        textIndicator.text = "Pregunta numero: " + position + "/3";
 
         if (indexQuestion == provisionalQuestionsList.Count)
         {
@@ -225,7 +225,7 @@ public class QuestGameManager : MonoBehaviour
         if (newQualification > (provisionalQuestionsList.Count / 2))
         {
             GameManager.Instance.endQuiz = true;
-            resultsPanel.GetComponentInChildren<TMP_Text>().text = "Aprovado con " + " " + newQualification + " " + "de" + " " + provisionalQuestionsList.Count;
+            resultsPanel.GetComponentInChildren<TMP_Text>().text = "Aprobado con " + " " + newQualification + " " + "de" + " " + provisionalQuestionsList.Count;
         }
         else
         {
@@ -268,7 +268,6 @@ public class QuestGameManager : MonoBehaviour
         Debug.Log("End Quiz");
         textController.EndDialogue();
         ResetButtons();
-
         answersProvisionalList.Clear();
         provisionalQuestionsList.Clear();
         indexQuestion = 0;
